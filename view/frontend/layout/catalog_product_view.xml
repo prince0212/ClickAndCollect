@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.main">
+            <block class="Deloitte\ClickAndCollect\Block\Product\View\SourceInventory" name="product.info.source.inventory" after="product.info.details" template="product/view/source_inventory.phtml" ifconfig="cnc/general/enable" />
+        </referenceContainer>
+    </body>
+</page>

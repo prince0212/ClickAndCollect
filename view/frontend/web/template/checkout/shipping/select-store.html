@@ -1,0 +1,29 @@
+
+<div class ="click-and-collect" data-bind="visible: isClickAndCollect()">
+    <p><a class="store-popup-link" data-bind="click: showMap, visible: isSelectStoreVisible()" href="#">Select store by map</a></p>
+    <label class="label">Pick Up Date</label>
+    <div class="control">
+        <input class="input-text" type="text" data-bind="datetimepicker: true"  name="pickup_date" id="pickup-date" readonly="true"/>
+    </div>
+    <input type="hidden" id="pickup-store" name="pickup_store" value="" />
+    <p id="selected-store-msg">You have selected to pick up your order in <span></span> store.</p>
+    <div class="checkout-storelocator" style="display: none;">
+        <div class="search-panel">
+            <div class="stockists-results">
+                <div class="search-stockists">
+                    <div class="search-header">
+                        <p class="search-title">Find Stores
+                            <span class="geocode-location"></span>
+                        </p>
+                        <p class="stockists-intro">Enter a city, country or full post/zip code</p>
+                        <label for="stockist-search-term'"></label>
+                        <input id="stockist-search-term" type="text" placeholder="Search" />
+                        <button id="stockists-submit">Search</button>
+                    </div>
+                </div>
+                <div class="results-store"></div>
+            </div>
+        </div>
+        <div class="map-panel"><div id="map-canvas"></div></div>
+    </div>
+</div>

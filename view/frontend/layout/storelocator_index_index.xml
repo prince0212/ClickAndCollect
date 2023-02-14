@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>StoreLocator</title>
+        <css src="Deloitte_ClickAndCollect::css/stockists.css"/>
+    </head>
+    <body>
+        <attribute name="class" value="stockists"/>
+        <referenceContainer name="content">
+            <block class="Deloitte\ClickAndCollect\Block\Stockists" name="stockists.stores" template="Deloitte_ClickAndCollect::main.phtml" ifconfig="cnc/general/enable" />
+        </referenceContainer>
+    </body>
+</page>

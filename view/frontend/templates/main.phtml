@@ -1,0 +1,190 @@
+<?php
+declare(strict_types=1);
+
+use Deloitte\ClickAndCollect\Block\Stockists;
+
+?>
+
+<?php /** @var Stockists $block */ ?>
+<?php $_store = $block->getCurrentStore(); ?>
+<?php $data = $block->getStoresForFrontend(); ?>
+<?php $countryList = $block->getCountries(); ?>
+<?php $modulePath = "cnc/stockist/image/"; ?>
+<?php $templateSetting = $block->getTemplateSettings(); ?>
+
+<?php
+if ($block->getMapPin()) {
+    $mapPin = $block->getMediaUrl() . "cnc/" . $block->getMapPin();
+} else {
+    $mapPin = $block->getViewFileUrl('Deloitte_ClickAndCollect::images/map_pin.png');
+}
+?>
+
+<!-- there are 3 templates, page_width_top has a different html structure -->
+<?php if ($templateSetting != "page_width_top"): //if it is full_width_sidebar or page_width_sidebar ?>
+
+    <div class="parent-stockists <?= $templateSetting; ?>">
+
+        <div class="directions-panel">
+            <p>Your directions: </p>
+            <p class="change-directions">Change to <span class="walking get-directions" data-directions="WALKING">walking, </span><span
+                        class="cycle get-directions" data-directions="BICYCLING">cycling</span>, <span
+                        class="transit get-directions" data-directions="TRANSIT">public transport</span> or <span
+                        class="driving get-directions" data-directions="DRIVING">driving</span>.</p>
+            <div class="close"></div>
+        </div>
+        <div class="search-stockists">
+
+            <div class="search-header">
+
+                <p class="search-title"><?= /* @escapeNotVerified */
+                    __("Find Stores") ?>
+                    <span class="geocode-location"></span>
+                </p>
+                <p class="stockists-intro"><?= /* @escapeNotVerified */
+                    __("Enter a city, country or full post/zip code") ?></p>
+                <label for="stockist-search-term'"></label>
+                <input id="stockist-search-term" type="text" placeholder="Search"/>
+
+                <button id="stockists-submit"><?= /* @escapeNotVerified */
+                    __("Search") ?></button>
+
+            </div>
+
+            <div class="stockists-results">
+
+
+                <div class="results-store">
+
+                    <?php foreach ($data as $item): ?>
+
+                        <?php $data_marker = $item["latitude"] . $item["longitude"]; ?>
+
+                        <div class="results-content loaded-results"
+                             data-marker="<?= $block->escapeHtml($data_marker); ?>">
+
+                            <?php if ($item["image"]): ?>
+
+                                <div class="image">
+                                    <img src="<?= $block->getBaseImageUrl() . $modulePath . $block->escapeHtml($item["image"]) ?>"
+                                         alt="<?= $block->escapeHtml($item["name"]) ?>"/>
+                                </div>
+
+                            <?php endif; ?>
+
+                            <div class="results-item-data">
+
+                                <p class="results-title"><?= $block->escapeHtml($item["name"]); ?></p>
+
+                                <?php if ($item["address"]): ?>
+                                    <p class="results-address"><?= $block->escapeHtml($item["address"]); ?></p>
+                                <?php endif; ?>
+
+                                <?php if ($item["city"]): ?>
+                                    <p class="results-phone">
+                                        <?=
+                                        $block->escapeHtml($item["city"]);
+                                        $block->escapeHtml($item["postcode"]) ? ", " . $block->escapeHtml($item["postcode"]) : "";
+                                        ?>
+                                    </p>
+                                <?php endif; ?>
+
+                                <?php if ($item["country"] && $countryList[$item["country"]]): ?>
+                                    <p class="results-miles"><?= $block->escapeHtml($countryList[$item["country"]]) ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="map-canvas" style="height: 100%; width: 100%;"></div>
+
+<?php else: //if $templateSetting is page_width_top ?>
+    <div class="parent-stockists <?= $templateSetting; ?>">
+        <div class="directions-panel">
+            <p>Your directions: </p>
+            <p class="change-directions">Change to <span class="walking get-directions" data-directions="WALKING">walking, </span><span
+                        class="cycle get-directions" data-directions="BICYCLING">cycling</span>, <span
+                        class="transit get-directions" data-directions="TRANSIT">public transport</span> or <span
+                        class="driving get-directions" data-directions="DRIVING">driving</span>.</p>
+            <div class="close"></div>
+        </div>
+        
+        <div class="stockists-results">
+            <div class="search-stockists">
+                <div class="search-header">
+                    <p class="search-title"><?= /* @escapeNotVerified */ __("Find Stores") ?>
+                        <span class="geocode-location"></span>
+                    </p>
+                    <p class="stockists-intro"><?= /* @escapeNotVerified */ __("Enter a city, country or full post/zip code") ?></p>
+                    <label for="stockist-search-term'"></label>
+                    <input id="stockist-search-term" type="text" placeholder="Search" />
+                    <button id="stockists-submit"><?= /* @escapeNotVerified */ __("Search") ?></button>
+                </div>
+            </div>
+            <div class="results-store">
+                <?php foreach ($data as $item): ?>
+                    <?php $data_marker = $item["latitude"] . $item["longitude"]; ?>
+                    <div class="results-content loaded-results" data-marker="<?= $block->escapeHtml($data_marker); ?>">
+                        <?php if ($item["image"]): ?>
+                            <div class="image">
+                                <img src="<?= $block->getBaseImageUrl() . $modulePath . $block->escapeHtml($item["image"]) ?>"
+                                     alt="<?= $block->escapeHtml($item["name"]) ?>"/>
+                            </div>
+                        <?php endif; ?>
+                        <div class="results-item-data">
+                            <p class="results-title"><?= $block->escapeHtml($item["name"]); ?></p>
+                            <?php if ($item["address"]): ?>
+                                <p class="results-address"><?= $block->escapeHtml($item["address"]); ?></p>
+                            <?php endif; ?>
+                            <?php if ($item["city"]): ?>
+                                <p class="results-phone">
+                                    <?=
+                                    $block->escapeHtml($item["city"]);
+                                    $block->escapeHtml($item["postcode"]) ? ", " . $block->escapeHtml($item["postcode"]) : "";
+                                    ?>
+                                </p>
+                            <?php endif; ?>
+                            <?php if ($item["country"] && $countryList[$item["country"]]): ?>
+                                <p class="results-miles"><?= $block->escapeHtml($countryList[$item["country"]]) ?></p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div id="map-canvas" style="height: 100%; width: 100%;"></div>
+    </div>
+
+<?php endif; ?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+
+            "deloitte_stockists": {
+                "moduleUrl" : "<?= $block->getModuleUrlSettings() ?>",
+                "map_styles" : "<?= $block->getMapStyles() ?>",
+                "map_pin" : "<?= $mapPin; ?>",
+                "geolocation" : <?= json_encode($block->getLocationSettings()) ?>,
+                "zoom" : <?= json_encode($block->getZoomSettings()) ?>,
+                "latitude" : <?= json_encode($block->getLatitudeSettings()) ?>,
+                "longitude" : <?= json_encode($block->getLongitudeSettings()) ?>,
+                "radius" : <?= json_encode($block->getRadiusSettings()) ?>,
+                "template" : "<?= $templateSetting; ?>",
+                "apiKey" : "<?= $block->getApiKeySettings(); ?>",
+                "unit" : "<?= $block->getUnitOfLengthSettings() ?>",
+                "fillColor" : "<?= $block->getFillColorSettings() ?>",
+                "fillOpacity" : <?= json_encode($block->getFillOpacitySettings()) ?>,
+                "strokeColor" : "<?= $block->getStrokeColorSettings() ?>",
+                "strokeOpacity" : <?= json_encode($block->getStrokeOpacitySettings()) ?>,
+                "strokeWeight" : <?= json_encode($block->getStrokeWeightSettings()) ?>
+            }
+
+        }
+    }
+
+
+</script>
