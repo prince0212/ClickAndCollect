@@ -1,0 +1,18 @@
+type Query {
+    storelocatorCollection: storelocatorCollection @resolver(class: "Deloitte\\ClickAndCollect\\Model\\Resolver\\StoresResolver") @doc(description: "Get Stores collection for store locator")
+}
+
+type storelocatorCollection @doc(description: "storelocator collection comment") {
+    gmap_api_key: String @doc(description: "Get Google Maps API key")
+    allStores: [StoreRecord] @doc(description: "Store records with info")
+}
+type StoreRecord {
+    id : String @doc(description: "Get Store Id")
+    source_code: String @doc(description: "Get Store Code")
+    latitude: String @doc(description: "Get latitude ")
+    longitude: String @doc(description: "Get longitude")
+    name: String @doc(description: "Get Store Name")
+    address: String @doc(description: "Get Store Address")
+    contact_number: String @doc(description: "Get store contact number")
+    email : String @doc(description: "Get Store email")
+}

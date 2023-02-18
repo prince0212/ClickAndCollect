@@ -21,7 +21,7 @@ class Clickandcollect extends AbstractCarrier implements CarrierInterface
      *
      * @var string
      */
-    protected $_code = 'clickandcollect';
+    protected $_code = 'cnc';
 
     /**
      * Whether this carrier has fixed rates calculation

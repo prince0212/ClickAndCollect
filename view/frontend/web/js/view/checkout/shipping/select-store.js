@@ -23,7 +23,7 @@ define([
         initialize: function () {
             var self = this;
             quote.shippingMethod.subscribe(function () {
-            	if (quote.shippingMethod().carrier_code == 'clickandcollect') {
+            	if (quote.shippingMethod().carrier_code == 'cnc') {
                     self.isClickAndCollect(true);
                     var stores = $.parseJSON(window.checkoutConfig.shipping.select_store.stores);
                     if(stores.totalRecords > 1) {
